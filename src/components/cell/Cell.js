@@ -6,9 +6,11 @@ class Cell extends Component {
     return (
       <div
         className={this.props.className}
-        onClick={this.props.onClick}
         data-row={this.props.row}
         data-column={this.props.column}
+        onMouseDown={this.props.onMouseDown}
+        onMouseUp={this.props.onMouseUp}
+        onMouseOver={this.props.onMouseOver}
       />
     );
   }

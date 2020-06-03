@@ -18,11 +18,13 @@ class Grid extends Component {
 
         return (
           <Cell
+            className={this.getClassName(cell)}
+            key={"row" + cell.row + "col" + cell.column}
             row={cell.row}
             column={cell.column}
-            onClick={cell.onClick}
-            key={"row"+cell.row+"col"+cell.column}
-            className={this.getClassName(cell)}
+            onMouseDown={cell.onMouseDown}
+            onMouseUp={cell.onMouseUp}
+            onMouseOver={cell.onMouseOver}
           />
         )});
 

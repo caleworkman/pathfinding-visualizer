@@ -12,12 +12,16 @@ class App extends Component {
     super(props);
 
     this.state = {
-      grid: []
+      grid: [],
+      dragging: false
     }
 
     this.gridRef = React.createRef();
 
-    this.handleClickCell = this.handleClickCell.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
+
     this.getNumberColumns = this.getNumberColumns.bind(this);
     this.getNumberRows = this.getNumberRows.bind(this);
     this.randomizeStartAndFinish = this.randomizeStartAndFinish.bind(this);
@@ -25,7 +29,6 @@ class App extends Component {
 
   componentDidMount() {
     this.initializeNewGrid();
-    // this.randomizeStart();
   }
 
   initializeNewGrid() {
@@ -42,22 +45,40 @@ class App extends Component {
         row.push({
           row: i,
           column: j,
-          onClick: this.handleClickCell,
-          type: null
+          type: null,
+          onMouseDown: this.handleMouseDown,
+          onMouseUp: this.handleMouseUp,
+          onMouseOver: this.handleMouseOver
         });
       }
       newGrid.push(row);
     }
 
-    this.setState({
-      grid: newGrid
-    });
+    this.setState({ grid: newGrid });
   }
 
-  handleClickCell(cell) {
+  handleMouseDown(cell) {
     const row = cell.currentTarget.dataset.row;
     const col = cell.currentTarget.dataset.column;
-    console.log(row, col);
+    // Set this cell as a wall
+    const _grid = this.state.grid.slice();
+    _grid[row][col].type = "wall";
+
+    this.setState({ dragging: true, grid: _grid });
+  }
+
+  handleMouseOver(cell) {
+    if (this.state.dragging) {
+      const row = cell.currentTarget.dataset.row;
+      const col = cell.currentTarget.dataset.column;
+      const _grid = this.state.grid.slice();
+      _grid[row][col].type = "wall";
+      this.setState({ grid: _grid });
+    }
+  }
+
+  handleMouseUp(cell) {
+    this.setState({ dragging: false });
   }
 
   getNumberColumns() {
@@ -90,9 +111,7 @@ class App extends Component {
     _grid[startRow][startCol].type = "start";
     _grid[finishRow][finishCol].type = "finish"
 
-    this.setState({
-      grid: _grid
-    });
+    this.setState({ grid: _grid });
   }
 
   render() {
