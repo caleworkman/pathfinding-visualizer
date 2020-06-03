@@ -27,12 +27,13 @@ class App extends Component {
     this.getNumberColumns = this.getNumberColumns.bind(this);
     this.getNumberRows = this.getNumberRows.bind(this);
     this.randomizeStartAndFinish = this.randomizeStartAndFinish.bind(this);
+    this.resetGrid = this.resetGrid.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
     const grid = this.initializeNewGrid();
-    this.setState({ grid: grid });
+    this.setState({ grid: this.initializeNewGrid() });
   }
 
   componentWillUnmount() {
@@ -170,10 +171,17 @@ class App extends Component {
     this.setState({ grid: _grid });
   }
 
+  resetGrid() {
+    this.setState({ grid: this.initializeNewGrid() });
+  }
+
   render() {
     return (
       <div className="app">
-        <Header randomizeGrid={this.randomizeStartAndFinish} />
+        <Header
+          randomizeGrid={this.randomizeStartAndFinish}
+          reset={this.resetGrid}
+        />
         <Grid
           grid={this.state.grid}
           gridRef={this.gridRef}

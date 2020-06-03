@@ -6,6 +6,9 @@ class Header extends Component {
   render() {
     return (
       <div className="header">
+        <Button onClick={this.props.reset}>
+          Reset
+        </Button>
         <Button onClick={this.props.randomizeGrid}>
           Randomize
         </Button>
