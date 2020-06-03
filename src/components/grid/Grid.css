@@ -1,0 +1,11 @@
+.grid {
+  display: grid;
+  grid-gap: 0;
+  padding: 1rem;
+}
+
+.grid__row {
+  display: grid;
+  grid-gap: 0;
+  grid-auto-flow: column;
+}

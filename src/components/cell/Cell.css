@@ -1,0 +1,24 @@
+.cell {
+  background: lightgray;
+  border: solid 1px black;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.cell--wall {
+  background: black;
+}
+
+.cell--start {
+  background: green;
+}
+
+.cell--end {
+  background: red;
+}
+
+.cell:hover {
+  background: lightblue;
+}
