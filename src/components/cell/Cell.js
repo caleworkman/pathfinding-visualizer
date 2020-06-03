@@ -5,8 +5,8 @@ class Cell extends Component {
   render() {
     return (
       <div
-        className="cell"
-        onClick={this.props.click}
+        className={this.props.className}
+        onClick={this.props.onClick}
         data-row={this.props.row}
         data-column={this.props.column}
       />

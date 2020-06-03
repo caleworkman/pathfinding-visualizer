@@ -1,11 +1,10 @@
 .grid {
-  display: grid;
-  grid-gap: 0;
-  padding: 1rem;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .grid__row {
-  display: grid;
-  grid-gap: 0;
-  grid-auto-flow: column;
+  display: flex;
 }
