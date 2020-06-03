@@ -16,4 +16,8 @@ class Cell extends Component {
   }
 }
 
+Cell.defaultProps = {
+  className: "cell",
+}
+
 export default Cell;

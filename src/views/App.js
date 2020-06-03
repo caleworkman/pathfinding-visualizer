@@ -18,6 +18,8 @@ class App extends Component {
 
     this.gridRef = React.createRef();
 
+    this.handleResize = this.handleResize.bind(this);
+
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.handleMouseOver = this.handleMouseOver.bind(this);
@@ -28,20 +30,26 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.initializeNewGrid();
+    window.addEventListener("resize", this.handleResize);
+    const grid = this.initializeNewGrid();
+    this.setState({ grid: grid });
+  }
+
+  componentWillUnmount() {
+    window.removeventListener("resize", this.handleResize);
   }
 
   initializeNewGrid() {
     const height = this.gridRef.current.clientHeight;
     const width = this.gridRef.current.clientWidth;
 
-    const gridHeightInCells = Math.floor(height/CELL_SIDE_LENGTH);
-    const gridWidthInCells = Math.floor(width/CELL_SIDE_LENGTH);
+    const numberRows = Math.floor(height/CELL_SIDE_LENGTH);
+    const numberColumns = Math.floor(width/CELL_SIDE_LENGTH);
 
     let newGrid = [];
-    for (var i=0; i<gridHeightInCells; i++) {
+    for (var i=0; i<numberRows; i++) {
       const row = [];
-      for (var j=0; j<gridWidthInCells; j++) {
+      for (var j=0; j<numberColumns; j++) {
         row.push({
           row: i,
           column: j,
@@ -54,7 +62,7 @@ class App extends Component {
       newGrid.push(row);
     }
 
-    this.setState({ grid: newGrid });
+    return newGrid;
   }
 
   handleMouseDown(cell) {
@@ -68,6 +76,7 @@ class App extends Component {
   }
 
   handleMouseOver(cell) {
+
     if (this.state.dragging) {
       const row = cell.currentTarget.dataset.row;
       const col = cell.currentTarget.dataset.column;
@@ -78,7 +87,54 @@ class App extends Component {
   }
 
   handleMouseUp(cell) {
+
     this.setState({ dragging: false });
+  }
+
+  handleResize() {
+    // Redraw the grid, but keep the other cells the same. Do this by adding
+    // new cells outside
+    const height = this.gridRef.current.clientHeight;
+    const width = this.gridRef.current.clientWidth;
+
+    const newNumRows = Math.floor(height/CELL_SIDE_LENGTH);
+    const newNumColumns = Math.floor(width/CELL_SIDE_LENGTH);
+
+    const oldNumColumns = this.getNumberColumns();
+    const oldNumRows = this.getNumberRows();
+
+    console.log(oldNumRows, newNumRows);
+
+    const grid = this.state.grid.slice();
+
+    // Add new rows if needed
+    if (oldNumRows > newNumRows) {
+      // remove first and last rows from the old grid
+      grid.shift();
+      grid.pop();
+    } else if (newNumRows - oldNumRows >= 2) {
+      // Add two new rows. Use old columns because we check for new columns next
+      grid.unshift(new Array(oldNumColumns));
+      grid.push(new Array(oldNumColumns));
+    }
+
+    if (oldNumColumns > newNumColumns) {
+      // remove first and last column
+      for (var row=0; row<grid.length; row++) {
+        grid[row].shift();
+        grid[row].pop();
+      }
+    } else if (newNumColumns - oldNumColumns >= 2) {
+      // Add two new columns to each row
+      for (var row=0; row<grid.length; row++) {
+        grid[row].unshift();
+        grid[row].push();
+      }
+    }
+
+    // TODO: need to renumber the new grid based on its changes
+
+    this.setState({ grid: grid });
   }
 
   getNumberColumns() {
