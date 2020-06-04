@@ -12,8 +12,10 @@ class App extends Component {
     super(props);
 
     this.state = {
+      dragging: false,
       grid: [],
-      dragging: false
+      start: {row: null, column: null},
+      finish: {row: null, column: null}
     }
 
     this.gridRef = React.createRef();
@@ -77,7 +79,7 @@ class App extends Component {
   }
 
   handleResize() {
-    // TODO: need to renumber the new grid based on its changes
+
     this.setState({ grid: this.expandToNewGrid() });
   }
 
@@ -176,25 +178,39 @@ class App extends Component {
     // Set a random cell to start and a random cell to finish
     const numCols = this.getNumberColumns();
     const numRows = this.getNumberRows();
-
     const startRow = generateRandomNumberUpTo(numRows);
     const startCol = generateRandomNumberUpTo(numCols);
+    let finishRow = generateRandomNumberUpTo(numRows);
+    let finishCol = generateRandomNumberUpTo(numCols);
 
-    // Make sure start and finish aren't the same
-    var finishRow = generateRandomNumberUpTo(numRows);
-    var finishCol = generateRandomNumberUpTo(numCols);
-    while (finishRow === startRow) {
+    // Don't let start and finish be the same
+    while ((finishRow === startRow) && (finishCol === startCol)) {
       finishRow = generateRandomNumberUpTo(numRows);
-    }
-    while (finishCol === startCol) {
       finishCol = generateRandomNumberUpTo(numCols);
     }
 
-    const _grid = this.state.grid.slice();
-    _grid[startRow][startCol].type = "start";
-    _grid[finishRow][finishCol].type = "finish"
+    const grid = this.state.grid.slice();
+    grid[startRow][startCol].type = "start";
+    grid[finishRow][finishCol].type = "finish";
 
-    this.setState({ grid: _grid });
+    this.setState(prevState => {
+      // Clear the old start and finish cell.type attribute
+      const prevStart = prevState.start;
+      if (typeof prevStart.row === "number" && typeof prevStart.column === "number") {
+        grid[prevStart.row][prevStart.column].type = null;
+      }
+
+      const prevFinish = prevState.finish;
+      if (typeof prevFinish.row === "number" && typeof prevFinish.column === "number") {
+        grid[prevFinish.row][prevFinish.column].type = null;
+      }
+
+      return {
+        grid: grid,
+        start: { row: startRow, column: startCol },
+        finish: { row: finishRow, column: finishCol }
+      }
+    });
   }
 
   resetGrid() {
