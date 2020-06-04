@@ -158,13 +158,14 @@ class App extends Component {
 
     for (var row=0; row<newGrid.length; row++) {
       for (var col=0; col<newGrid[0].length; col++) {
-        // Update the cell this way so that type is preserved
-        let cell = newGrid[row][col];
-        cell.row = row;
-        cell.column = col;
-        cell.onMouseDown = this.handleMouseDown;
-        cell.onMouseUp = this.handleMouseUp;
-        cell.onMouseOver = this.handleMouseOver;
+        newGrid[row][col] = {
+          row: row,
+          column: col,
+          type: newGrid[row][col]?.type,
+          onMouseDown: this.handleMouseDown,
+          onMouseUp: this.handleMouseUp,
+          onMouseOver: this.handleMouseOver
+        }
       }
     }
 
