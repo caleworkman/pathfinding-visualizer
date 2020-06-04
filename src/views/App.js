@@ -77,8 +77,6 @@ class App extends Component {
   }
 
   handleResize() {
-
-
     // TODO: need to renumber the new grid based on its changes
     this.setState({ grid: this.expandToNewGrid() });
   }
@@ -114,7 +112,6 @@ class App extends Component {
     // Redraw the grid, but keep the other cells the same.
     const height = this.gridRef.current.clientHeight;
     const width = this.gridRef.current.clientWidth;
-
     const newNumRows = Math.floor(height/CELL_SIDE_LENGTH);
     const newNumColumns = Math.floor(width/CELL_SIDE_LENGTH);
 
@@ -124,13 +121,14 @@ class App extends Component {
     const diffRows = newNumRows - oldNumRows;
     const diffColumns = newNumColumns - oldNumColumns;
 
-    console.log(diffColumns);
-
     const newGrid = this.state.grid.slice();
 
-    if (diffRows <= -2) {
+    // When shrinking, the difference in thresholdj (-1) is lower (than 2),
+    // otherwise you get half of a row/col and overflow issues.
+
+    if (diffRows <= -1) {
       // remove first and last rows from the old grid
-      for (var i=diffRows; i<0; i+=2) {
+      for (var i=diffRows; i<0; i++) {
         newGrid.shift();
         newGrid.pop();
       }
@@ -142,9 +140,9 @@ class App extends Component {
       }
     }
 
-    if (diffColumns <= -2) {
+    if (diffColumns <= -1) {
       // remove first and last column
-      for (var row=0; row<newGrid.length; row+=2) {
+      for (var row=0; row<newGrid.length; row++) {
         newGrid[row].shift();
         newGrid[row].pop();
       }
@@ -160,20 +158,13 @@ class App extends Component {
 
     for (var row=0; row<newGrid.length; row++) {
       for (var col=0; col<newGrid[0].length; col++) {
+        // Update the cell this way so that type is preserved
         let cell = newGrid[row][col];
-        if (cell) {
-          cell.row = row;
-          cell.column = col;
-        } else {
-          newGrid[row][col] = {
-            row: row,
-            column: col,
-            type: null,
-            onMouseDown: this.handleMouseDown,
-            onMouseUp: this.handleMouseUp,
-            onMouseOver: this.handleMouseOver
-          }
-        }
+        cell.row = row;
+        cell.column = col;
+        cell.onMouseDown = this.handleMouseDown;
+        cell.onMouseUp = this.handleMouseUp;
+        cell.onMouseOver = this.handleMouseOver;
       }
     }
 
