@@ -175,21 +175,30 @@ class App extends Component {
   }
 
   randomizeStartAndFinish() {
+
     // Set a random cell to start and a random cell to finish
+    const grid = this.state.grid.slice();
+
     const numCols = this.getNumberColumns();
     const numRows = this.getNumberRows();
-    const startRow = generateRandomNumberUpTo(numRows);
-    const startCol = generateRandomNumberUpTo(numCols);
+    let startRow = generateRandomNumberUpTo(numRows);
+    let startCol = generateRandomNumberUpTo(numCols);
+
+    // Don't start be a wall
+    while (grid[startRow][startCol].type === "wall") {
+      startRow = generateRandomNumberUpTo(numRows);
+      startCol = generateRandomNumberUpTo(numCols);
+    }
+
     let finishRow = generateRandomNumberUpTo(numRows);
     let finishCol = generateRandomNumberUpTo(numCols);
 
-    // Don't let start and finish be the same
-    while ((finishRow === startRow) && (finishCol === startCol)) {
+    // Don't let start and finish be the same, or finish be a wall
+    while (((finishRow === startRow) && (finishCol === startCol)) || grid[finishRow][finishCol].type === "wall") {
       finishRow = generateRandomNumberUpTo(numRows);
       finishCol = generateRandomNumberUpTo(numCols);
     }
 
-    const grid = this.state.grid.slice();
     grid[startRow][startCol].type = "start";
     grid[finishRow][finishCol].type = "finish";
 
