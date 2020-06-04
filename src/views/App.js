@@ -44,12 +44,35 @@ class App extends Component {
     window.removeEventListener("resize", this.handleResize);
   }
 
+  getAllEmptyCellCoordsFrom(grid) {
+    // Get all empty cells on the grid.
+    // Returns an array of {row: int, column: int} pairs.
+    var emptyCells = [];
+    grid.forEach(row => {
+      const cells = row.filter(cell => !cell.type);
+      const coords = cells.map(cell => {return {row: cell.row, column: cell.column}});
+      emptyCells = emptyCells.concat(coords);
+    });
+
+    return emptyCells;
+  }
+
   getNumberColumns() {
     return this.state.grid[0].length;
   }
 
   getNumberRows() {
     return this.state.grid.length;
+  }
+
+  getRandomValueFrom(arr) {
+    if (!arr.length) {
+      // TODO: proper error handling
+      console.log("Error: Array passed to getRandomValueFrom(arr) is empty.");
+      return [];
+    }
+
+    return arr[generateRandomNumberUpTo(arr.length)];
   }
 
   handleMouseDown(cell) {
@@ -176,54 +199,28 @@ class App extends Component {
 
   randomizeStartAndFinish() {
 
-    // Set a random cell to start and a random cell to finish
-    const grid = this.state.grid.slice();
+    var emptyCells = this.getAllEmptyCellCoordsFrom(this.state.grid);
+    const start = this.getRandomValueFrom(emptyCells);
+    this.removeFromArray(emptyCells, start);
+    const finish = this.getRandomValueFrom(emptyCells);
 
-    const numCols = this.getNumberColumns();
-    const numRows = this.getNumberRows();
-    let startRow = generateRandomNumberUpTo(numRows);
-    let startCol = generateRandomNumberUpTo(numCols);
-
-    // Don't start be a wall
-    while (grid[startRow][startCol].type === "wall") {
-      startRow = generateRandomNumberUpTo(numRows);
-      startCol = generateRandomNumberUpTo(numCols);
-    }
-
-    let finishRow = generateRandomNumberUpTo(numRows);
-    let finishCol = generateRandomNumberUpTo(numCols);
-
-    // Don't let start and finish be the same, or finish be a wall
-    while (((finishRow === startRow) && (finishCol === startCol)) || grid[finishRow][finishCol].type === "wall") {
-      finishRow = generateRandomNumberUpTo(numRows);
-      finishCol = generateRandomNumberUpTo(numCols);
-    }
-
-    grid[startRow][startCol].type = "start";
-    grid[finishRow][finishCol].type = "finish";
-
-    this.setState(prevState => {
-      // Clear the old start and finish cell.type attribute
-      const prevStart = prevState.start;
-      if (typeof prevStart.row === "number" && typeof prevStart.column === "number") {
-        grid[prevStart.row][prevStart.column].type = null;
-      }
-
-      const prevFinish = prevState.finish;
-      if (typeof prevFinish.row === "number" && typeof prevFinish.column === "number") {
-        grid[prevFinish.row][prevFinish.column].type = null;
-      }
-
-      return {
-        grid: grid,
-        start: { row: startRow, column: startCol },
-        finish: { row: finishRow, column: finishCol }
-      }
+    this.setState({
+      start: start,
+      finish: finish
     });
   }
 
+  removeFromArray(arr, removeCoord) {
+    const index = arr.indexOf(removeCoord);
+    arr.splice(index, 1)
+  }
+
   resetGrid() {
-    this.setState({ grid: this.initializeNewGrid() });
+    this.setState({
+      grid: this.initializeNewGrid(),
+      start: {row: null, column: null},
+      finish: {row: null, column: null}
+    });
   }
 
   render() {
@@ -236,6 +233,8 @@ class App extends Component {
         <Grid
           grid={this.state.grid}
           gridRef={this.gridRef}
+          start={this.state.start}
+          finish={this.state.finish}
         />
       </div>
     );
