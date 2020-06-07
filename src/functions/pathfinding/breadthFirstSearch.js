@@ -3,15 +3,19 @@ import { getAllNeighbors, isNotWall, isUnvisited } from "./util.js";
 
 
 export const breadthFirstSearch = function(grid, start, finish) {
+
+  clearVisited(grid);
+
   // Do the search and then backtrack to find the path.
   let path = [];
-  let node = bfs(grid, start, finish);  // returns the final node
+  let { node, visited } = bfs(grid, start, finish);  // returns the final node
+
   while (node.from) {
     path.push(node);
     node = node.from;
   }
 
-  return path;
+  return { path: path, visited: visited };
 }
 
 const bfs = function(grid, start, finish) {
@@ -19,6 +23,7 @@ const bfs = function(grid, start, finish) {
   // to finish as a list of
 
   let queue = new Queue();
+  let visited = [];
   var node = start;
 
   queue.enqueue(node);
@@ -33,14 +38,23 @@ const bfs = function(grid, start, finish) {
         neighbor.visited = true;
         neighbor.from = node;
         if (neighbor.row === finish.row && neighbor.column === finish.column) {
-          return neighbor;
+          return { node: neighbor, visited: visited };
         }
         else {
+          visited.push(neighbor);
           queue.enqueue(neighbor);
         }
       }
     }
   }
 
-  return -1;  // not found
+  return { node: null, visited: visited };  // not found
+}
+
+const clearVisited = function(grid) {
+  for (var row=0; row<grid.length; row++) {
+    for (var col=0; col<grid[0].length; col++) {
+      grid[row][col].visited = false;
+    }
+  }
 }

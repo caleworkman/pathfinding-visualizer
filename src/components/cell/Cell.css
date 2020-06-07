@@ -15,6 +15,10 @@
   background: blue;
 }
 
+.cell--visited {
+  background: yellow;
+}
+
 .cell--start {
   background: green;
 }

@@ -9,14 +9,14 @@ class Grid extends Component {
     const row = cell.row;
     const col = cell.column;
 
-    const startRow = this.props.start.row ?? null;
-    const startCol = this.props.start.column ?? null;
+    const startRow = this.props.start?.row ?? null;
+    const startCol = this.props.start?.column ?? null;
     if (row === startRow && col === startCol) {
       type = "start";
     }
 
-    const finishRow = this.props.finish.row ?? null;
-    const finishCol = this.props.finish.column ?? null;
+    const finishRow = this.props.finish?.row ?? null;
+    const finishCol = this.props.finish?.column ?? null;
     if (row === finishRow && col === finishCol) {
       type = "finish";
     }

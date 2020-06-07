@@ -15,8 +15,8 @@ class App extends Component {
     this.state = {
       dragging: false,
       grid: [],
-      start: {row: null, column: null},
-      finish: {row: null, column: null}
+      start: null,
+      finish: null
     }
 
     this.gridRef = React.createRef();
@@ -47,9 +47,17 @@ class App extends Component {
   }
 
   findPath() {
-    const path = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
+    if (!this.state.start || !this.state.finish) {
+      console.log("no start or finish");
+      return;
+    }
+
+    const { path, visited } = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
     this.setState(prevState => {
       const grid = prevState.grid;
+      for (var cell of visited) {
+        grid[cell.row][cell.column].type = "visited";
+      }
       for (var cell of path) {
         grid[cell.row][cell.column].type = "path";
       }
