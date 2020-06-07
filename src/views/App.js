@@ -3,7 +3,8 @@ import Grid from "../components/grid/Grid.js";
 import Header from "../components/header/Header.js";
 import './App.css';
 
-import {generateRandomNumberUpTo} from "../Utilities.js";
+import { generateRandomNumberUpTo } from "../Utilities.js";
+import { breadthFirstSearch } from "../functions/pathfinding/breadthFirstSearch.js";
 
 const CELL_SIDE_LENGTH = 24; // px
 
@@ -19,6 +20,8 @@ class App extends Component {
     }
 
     this.gridRef = React.createRef();
+
+    this.findPath = this.findPath.bind(this);
 
     this.getNumberColumns = this.getNumberColumns.bind(this);
     this.getNumberRows = this.getNumberRows.bind(this);
@@ -44,6 +47,17 @@ class App extends Component {
     window.removeEventListener("resize", this.handleResize);
   }
 
+  findPath() {
+    const path = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
+    this.setState(prevState => {
+      const grid = prevState.grid;
+      for (var cell of path) {
+        grid[cell.row][cell.column].type = "path";
+      }
+      return { grid: grid }
+    });
+  }
+
   getAllEmptyCellCoordsFrom(grid) {
     // Get all empty cells on the grid.
     // Returns an array of {row: int, column: int} pairs.
@@ -58,7 +72,7 @@ class App extends Component {
   }
 
   getNumberColumns() {
-    return this.state.grid[0].length;
+    return this.state.grid[0]?.length;
   }
 
   getNumberRows() {
@@ -86,7 +100,6 @@ class App extends Component {
   }
 
   handleMouseOver(cell) {
-
     if (this.state.dragging) {
       const row = cell.currentTarget.dataset.row;
       const col = cell.currentTarget.dataset.column;
@@ -97,12 +110,10 @@ class App extends Component {
   }
 
   handleMouseUp(cell) {
-
     this.setState({ dragging: false });
   }
 
   handleResize() {
-
     this.setState({ grid: this.expandToNewGrid() });
   }
 
@@ -121,6 +132,7 @@ class App extends Component {
           row: i,
           column: j,
           type: null,
+          visited: false,
           onMouseDown: this.handleMouseDown,
           onMouseUp: this.handleMouseUp,
           onMouseOver: this.handleMouseOver
@@ -227,6 +239,7 @@ class App extends Component {
     return (
       <div className="app">
         <Header
+          findPath={this.findPath}
           randomizeGrid={this.randomizeStartAndFinish}
           reset={this.resetGrid}
         />

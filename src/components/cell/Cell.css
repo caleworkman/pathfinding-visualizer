@@ -11,6 +11,10 @@
   background: black;
 }
 
+.cell--path {
+  background: blue;
+}
+
 .cell--start {
   background: green;
 }

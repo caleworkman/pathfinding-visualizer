@@ -9,6 +9,9 @@ class Header extends Component {
         <Button onClick={this.props.reset}>
           Reset
         </Button>
+        <Button onClick={this.props.findPath}>
+          Find Path
+        </Button>
         <Button onClick={this.props.randomizeGrid}>
           Randomize
         </Button>
