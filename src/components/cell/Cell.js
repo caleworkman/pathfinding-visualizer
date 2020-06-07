@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import "./Cell.css";
 
-class Cell extends Component {
+class Cell extends PureComponent {
   render() {
     return (
       <div

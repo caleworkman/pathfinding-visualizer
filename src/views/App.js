@@ -32,7 +32,6 @@ class App extends Component {
     this.handleMouseOver = this.handleMouseOver.bind(this);
 
     this.expandToNewGrid = this.expandToNewGrid.bind(this);
-    this.initializeNewGrid = this.initializeNewGrid.bind(this);
 
     this.randomizeStartAndFinish = this.randomizeStartAndFinish.bind(this);
     this.resetGrid = this.resetGrid.bind(this);
