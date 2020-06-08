@@ -41,6 +41,7 @@ class Grid extends Component {
             onMouseDown={cell.onMouseDown}
             onMouseUp={cell.onMouseUp}
             onMouseOver={cell.onMouseOver}
+            animationDelay={cell.animationDelay}
           />
         )});
 

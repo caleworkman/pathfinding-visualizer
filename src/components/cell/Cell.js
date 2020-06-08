@@ -11,6 +11,7 @@ class Cell extends PureComponent {
         onMouseDown={this.props.onMouseDown}
         onMouseUp={this.props.onMouseUp}
         onMouseOver={this.props.onMouseOver}
+        style={{animationDelay: this.props.animationDelay + "s"}}
       />
     );
   }

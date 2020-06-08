@@ -1,6 +1,6 @@
 // Dijkstra's Algorithm
 
-import { getAllNeighbors, isNotWall, isUnvisited } from "./util.js";
+import { getNeighbors, isNotWall, isUnvisited } from "./util.js";
 
 export const findPathDijkstra = function(grid, start, finish) {
   // Uses Dijkstra's algorithm to find a path from start to finish in grid
@@ -27,7 +27,7 @@ export const findPathDijkstra = function(grid, start, finish) {
   let node = start;
 
   while (unvisited.length > 0) {
-    const neighbors = getAllNeighbors(grid, node).filter(x => isNotWall(x);
+    const neighbors = getNeighbors(grid, node).filter(x => isNotWall(x);
     let cost = table[node].distance;
 
     const neighborCosts = neighbors.map(neighbor => table[neighbor].distance + cost)

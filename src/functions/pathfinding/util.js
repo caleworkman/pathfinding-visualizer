@@ -1,6 +1,6 @@
 // Generic functions to do with pathfinding
 
-export const getAllNeighbors = function(grid, node) {
+export const getNeighbors = function(grid, node) {
   // returns all the neighbors of node in grid
   // "grid" is a 2D array
   // node is a dict {row: int, column: int, type: str}
@@ -18,13 +18,17 @@ export const getAllNeighbors = function(grid, node) {
   if (row - 1 >= 0) { neighbors.push(grid[row - 1][col]); }
   if (row + 1 <= maxRow) { neighbors.push(grid[row + 1][col]); }
 
-  return neighbors;
-}
-
-export const isNotWall = function(node) {
-  return node.type !== "wall";
+  return neighbors.filter(node => node.type !== "wall");
 }
 
 export const isUnvisited = function(node) {
   return !node.visited;
+}
+
+export const clearVisited = function(grid) {
+  for (var row=0; row<grid.length; row++) {
+    for (var col=0; col<grid[0].length; col++) {
+      grid[row][col].visited = false;
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import Queue from "./Queue.js";
-import { getAllNeighbors, isNotWall, isUnvisited } from "./util.js";
-
+import {
+  clearVisited,
+  getNeighbors,
+  isUnvisited } from "./util.js";
 
 export const breadthFirstSearch = function(grid, start, finish) {
 
@@ -32,9 +34,9 @@ const bfs = function(grid, start, finish) {
   while (!queue.isEmpty()) {
     node = queue.front();
     queue.dequeue(node);
-    let neighbors = getAllNeighbors(grid, node);
+    let neighbors = getNeighbors(grid, node);
     for (var neighbor of neighbors) {
-      if (isNotWall(neighbor) && isUnvisited(neighbor)) {
+      if (isUnvisited(neighbor)) {
         neighbor.visited = true;
         neighbor.from = node;
         if (neighbor.row === finish.row && neighbor.column === finish.column) {
@@ -49,12 +51,4 @@ const bfs = function(grid, start, finish) {
   }
 
   return { node: null, visited: visited };  // not found
-}
-
-const clearVisited = function(grid) {
-  for (var row=0; row<grid.length; row++) {
-    for (var col=0; col<grid[0].length; col++) {
-      grid[row][col].visited = false;
-    }
-  }
 }

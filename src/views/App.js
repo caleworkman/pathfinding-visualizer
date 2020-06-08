@@ -5,6 +5,8 @@ import './App.css';
 
 import { generateRandomNumberUpTo } from "../Utilities.js";
 import { breadthFirstSearch } from "../functions/pathfinding/breadthFirstSearch.js";
+import { depthFirstSearch } from "../functions/pathfinding/depthFirstSearch.js";
+
 
 const CELL_SIDE_LENGTH = 24; // px
 
@@ -52,14 +54,22 @@ class App extends Component {
       return;
     }
 
-    const { path, visited } = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
+    const { path, visited } = depthFirstSearch(this.state.grid, this.state.start, this.state.finish);
+    // const { path, visited } = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
+
+    var animationDelay = 0;
     this.setState(prevState => {
       const grid = prevState.grid;
       for (var cell of visited) {
         grid[cell.row][cell.column].type = "visited";
+        grid[cell.row][cell.column].animationDelay = animationDelay;
+        animationDelay += 0.01;
+        console.log(cell.row, cell.column, animationDelay);
       }
       for (var cell of path) {
         grid[cell.row][cell.column].type = "path";
+        // grid[cell.row][cell.column].animationDelay = animationDelay;
+        // animationDelay += 0.01;
       }
       return { grid: grid }
     });
