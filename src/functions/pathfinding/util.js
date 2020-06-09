@@ -21,8 +21,8 @@ export const getNeighbors = function(grid, node) {
   return neighbors.filter(node => node.type !== "wall");
 }
 
-export const isUnvisited = function(node) {
-  return !node.visited;
+export const hasVisited = function(node) {
+  return node.visited;
 }
 
 export const clearVisited = function(grid) {

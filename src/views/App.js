@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom'
 import Grid from "../components/grid/Grid.js";
 import Header from "../components/header/Header.js";
 import './App.css';
@@ -6,7 +7,6 @@ import './App.css';
 import { generateRandomNumberUpTo } from "../Utilities.js";
 import { breadthFirstSearch } from "../functions/pathfinding/breadthFirstSearch.js";
 import { depthFirstSearch } from "../functions/pathfinding/depthFirstSearch.js";
-
 
 const CELL_SIDE_LENGTH = 24; // px
 
@@ -18,7 +18,7 @@ class App extends Component {
       dragging: false,
       grid: [],
       start: null,
-      finish: null
+      finish: null,
     }
 
     this.gridRef = React.createRef();
@@ -48,31 +48,55 @@ class App extends Component {
     window.removeEventListener("resize", this.handleResize);
   }
 
+  animateSearching(visited, path) {
+
+    this.setState(prevState => {
+      let grid = prevState.grid;
+      var animationDelay = 0;
+      for (var cell of visited) {
+        const id = "row" + cell.row + "col" + cell.column;
+        const element = document.getElementById(id);
+        element.style.animationDelay = animationDelay + "s";
+        grid[cell.row][cell.column].type = "visited";
+        animationDelay += 0.03;
+      }
+
+      const lastVisited = visited[visited.length - 2]; // -1 is the finish cell
+      const lastId = "row" + lastVisited.row + "col" + lastVisited.column;
+      const lastElement = document.getElementById(lastId);
+      lastElement.addEventListener("animationend", () => this.animatePath(path, lastElement));
+
+      return { grid: grid }
+    });
+  }
+
+  animatePath(path, lastElement) {
+    this.setState(prevState => {
+      let grid = prevState.grid;
+      var animationDelay = 0;
+      path.forEach(cell => {
+        const id = "row" + cell.row + "col" + cell.column;
+        const element = document.getElementById(id);
+        element.style.animationDelay = animationDelay + "s";
+        grid[cell.row][cell.column].type = "path";
+        animationDelay += 0.03;
+      });
+      return { grid: grid }
+    });
+  }
+
   findPath() {
     if (!this.state.start || !this.state.finish) {
       console.log("no start or finish");
       return;
     }
 
-    const { path, visited } = depthFirstSearch(this.state.grid, this.state.start, this.state.finish);
-    // const { path, visited } = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
+    // const { path, visited } = depthFirstSearch(this.state.grid, this.state.start, this.state.finish);
+    const { path, visited } = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
 
-    var animationDelay = 0;
-    this.setState(prevState => {
-      const grid = prevState.grid;
-      for (var cell of visited) {
-        grid[cell.row][cell.column].type = "visited";
-        grid[cell.row][cell.column].animationDelay = animationDelay;
-        animationDelay += 0.01;
-        console.log(cell.row, cell.column, animationDelay);
-      }
-      for (var cell of path) {
-        grid[cell.row][cell.column].type = "path";
-        // grid[cell.row][cell.column].animationDelay = animationDelay;
-        // animationDelay += 0.01;
-      }
-      return { grid: grid }
-    });
+    // animate
+    this.animateSearching(visited, path);
+
   }
 
   getAllEmptyCellCoordsFrom(grid) {
@@ -152,7 +176,7 @@ class App extends Component {
           visited: false,
           onMouseDown: this.handleMouseDown,
           onMouseUp: this.handleMouseUp,
-          onMouseOver: this.handleMouseOver
+          onMouseOver: this.handleMouseOver,
         });
       }
       newGrid.push(row);
@@ -177,7 +201,7 @@ class App extends Component {
 
     const newGrid = this.state.grid.slice();
 
-    // When shrinking, the difference in thresholdj (-1) is lower (than 2),
+    // When shrinking, the difference in threshold (-1) is lower (than 2),
     // otherwise you get half of a row/col and overflow issues.
 
     if (diffRows <= -1) {

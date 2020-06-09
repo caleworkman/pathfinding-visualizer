@@ -2,7 +2,7 @@ import Queue from "./Queue.js";
 import {
   clearVisited,
   getNeighbors,
-  isUnvisited } from "./util.js";
+  hasVisited } from "./util.js";
 
 export const breadthFirstSearch = function(grid, start, finish) {
 
@@ -17,7 +17,7 @@ export const breadthFirstSearch = function(grid, start, finish) {
     node = node.from;
   }
 
-  return { path: path, visited: visited };
+  return { path: path.reverse(), visited: visited };
 }
 
 const bfs = function(grid, start, finish) {
@@ -36,7 +36,7 @@ const bfs = function(grid, start, finish) {
     queue.dequeue(node);
     let neighbors = getNeighbors(grid, node);
     for (var neighbor of neighbors) {
-      if (isUnvisited(neighbor)) {
+      if (!hasVisited(neighbor)) {
         neighbor.visited = true;
         neighbor.from = node;
         if (neighbor.row === finish.row && neighbor.column === finish.column) {
