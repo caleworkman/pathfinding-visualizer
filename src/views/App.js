@@ -19,6 +19,7 @@ class App extends Component {
       grid: [],
       start: null,
       finish: null,
+      selectedAlgorithm: {}
     }
 
     this.gridRef = React.createRef();
@@ -28,15 +29,23 @@ class App extends Component {
     this.getNumberColumns = this.getNumberColumns.bind(this);
     this.getNumberRows = this.getNumberRows.bind(this);
 
-    this.handleResize = this.handleResize.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleSelectAlgorithm = this.handleSelectAlgorithm.bind(this);
+    this.handleResize = this.handleResize.bind(this);
 
     this.expandToNewGrid = this.expandToNewGrid.bind(this);
 
     this.randomizeStartAndFinish = this.randomizeStartAndFinish.bind(this);
     this.resetGrid = this.resetGrid.bind(this);
+
+    this.algorithms = {
+      bfs: {name: "Breadth First Search", function: breadthFirstSearch},
+      dfs: {name: "Depth First Search", function: depthFirstSearch},
+      astar: {name: "A*", function: null},
+      djikstra: {name: "Djikstra\'s Algorithm", function: null}
+    }
   }
 
   componentDidMount() {
@@ -91,12 +100,13 @@ class App extends Component {
       return;
     }
 
-    // const { path, visited } = depthFirstSearch(this.state.grid, this.state.start, this.state.finish);
-    const { path, visited } = breadthFirstSearch(this.state.grid, this.state.start, this.state.finish);
-
-    // animate
+    const searchFunction = this.state.selectedAlgorithm.function;
+    if (!searchFunction) {
+      console.log("Please select an algorithm.");
+      return;
+    }
+    const { path, visited } = searchFunction(this.state.grid, this.state.start, this.state.finish);
     this.animateSearching(visited, path);
-
   }
 
   getAllEmptyCellCoordsFrom(grid) {
@@ -152,6 +162,13 @@ class App extends Component {
 
   handleMouseUp(cell) {
     this.setState({ dragging: false });
+  }
+
+  handleSelectAlgorithm(event) {
+    const id = event.currentTarget.id;
+    this.setState({
+      selectedAlgorithm: this.algorithms[id]
+    });
   }
 
   handleResize() {
@@ -281,6 +298,9 @@ class App extends Component {
       <div className="app">
         <Header
           findPath={this.findPath}
+          dropdownOptions={this.algorithms}
+          onSelectAlgorithm={this.handleSelectAlgorithm}
+          selectedAlgo={this.state.selectedAlgorithm.name}
           randomizeGrid={this.randomizeStartAndFinish}
           reset={this.resetGrid}
         />

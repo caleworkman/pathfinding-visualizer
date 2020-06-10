@@ -1,8 +1,10 @@
 .button {
+  align-items: center;
   background: lightblue;
   border: solid 1px blue;
   border-radius: 0.5rem;
   cursor: pointer;
+  display: flex;
   padding: 0.5rem;
 }
 

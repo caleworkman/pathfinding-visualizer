@@ -1,0 +1,28 @@
+.dropdown {
+  border: solid 1px black;
+  cursor: pointer;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr auto;
+  padding: 1rem;
+  position: relative;
+}
+
+.dropdown__main {
+  font-weight: bold;
+}
+
+.dropdown__expanded {
+  background: white;
+  border: solid 1px black;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-gap: 0.5rem;
+}
+
+.dropdown__option {
+}
