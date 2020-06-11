@@ -1,24 +1,26 @@
-import React, { PureComponent } from "react";
-import "./Cell.css";
-
-class Cell extends PureComponent {
-  render() {
-    return (
-      <div
-        className={this.props.className}
-        data-row={this.props.row}
-        data-column={this.props.column}
-        onMouseDown={this.props.onMouseDown}
-        onMouseUp={this.props.onMouseUp}
-        onMouseOver={this.props.onMouseOver}
-        id={"row"+this.props.row+"col"+this.props.column}
-      />
-    );
+export default class Cell {
+  constructor(row, col, type=null, visited=false) {
+    this.row = row;
+    this.column = col;
+    this.type = type;
+    this.visited = visited
   }
-}
 
-Cell.defaultProps = {
-  className: "cell",
-}
+  isEmpty() {
+    return !this.type;
+  }
 
-export default Cell;
+  isVisited() {
+    return this.visited;
+  }
+
+  reposition(newRow, newColumn) {
+    this.row = newRow;
+    this.column = newColumn;
+  }
+
+  hasSameCoordinates(other) {
+    return this.row === other.row && this.column === other.column;
+  }
+
+}

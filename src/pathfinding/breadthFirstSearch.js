@@ -1,12 +1,9 @@
 import Queue from "./Queue.js";
-import {
-  clearVisited,
-  getNeighbors,
-  hasVisited } from "./util.js";
+import { getNeighbors } from "./util.js";
 
 export const breadthFirstSearch = function(grid, start, finish) {
 
-  clearVisited(grid);
+  grid.clearAllVisited();
 
   // Do the search and then backtrack to find the path.
   let path = [];
@@ -36,10 +33,10 @@ const bfs = function(grid, start, finish) {
     queue.dequeue(node);
     let neighbors = getNeighbors(grid, node);
     for (var neighbor of neighbors) {
-      if (!hasVisited(neighbor)) {
+      if (!neighbor.isVisited()) {
         neighbor.visited = true;
         neighbor.from = node;
-        if (neighbor.row === finish.row && neighbor.column === finish.column) {
+        if (neighbor.hasSameCoordinates(finish)) {
           return { node: neighbor, visited: visited };
         }
         else {
