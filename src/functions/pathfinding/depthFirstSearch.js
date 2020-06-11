@@ -10,9 +10,9 @@ export const depthFirstSearch = function(grid, start, finish) {
 
   let path = [];
   let visited = [];
-  grid[start.row][start.column].visited = true;
+  const _start = grid[start.row][start.column]; // start is just a {row, col} pair
   return {
-    path: dfs(grid, start, finish, path, visited),
+    path: dfs(grid, _start, finish, path, visited),
     visited: visited
   };
 }
