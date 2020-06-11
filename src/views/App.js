@@ -73,7 +73,9 @@ class App extends Component {
       const lastVisited = visited[visited.length - 2]; // -1 is the finish cell
       const lastId = "row" + lastVisited.row + "col" + lastVisited.column;
       const lastElement = document.getElementById(lastId);
-      lastElement.addEventListener("animationend", () => this.animatePath(path, lastElement));
+
+      const animationListener = () => this.animatePath(path, lastElement);
+      lastElement.addEventListener("animationend", animationListener, {once: true});
 
       return { grid: grid }
     });
@@ -106,6 +108,7 @@ class App extends Component {
       return;
     }
     const { path, visited } = searchFunction(this.state.grid, this.state.start, this.state.finish);
+    console.log(path);
     this.animateSearching(visited, path);
   }
 
