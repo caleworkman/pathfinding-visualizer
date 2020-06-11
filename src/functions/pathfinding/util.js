@@ -32,3 +32,7 @@ export const clearVisited = function(grid) {
     }
   }
 }
+
+export const isEqual = function(a, b) {
+  return a.row === b.row && a.column === b.column;
+}
