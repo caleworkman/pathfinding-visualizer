@@ -26,3 +26,6 @@ const dfs = function(grid, start, finish, path, visited) {
   };
   return [];
 }
+
+// TODO; something is happening with DFS when the path isv ery long
+// 6/16/20: not sure what this meant

@@ -108,7 +108,7 @@ class App extends Component {
     // Set this cell as a wall
     this.setState(prevState => {
       prevState.grid.setCellType(row, col, "wall");
-      return { dragging: true, grid: prevState.grid }
+      return { dragging: true }
     });
   }
 

@@ -20,14 +20,15 @@ class Grid {
   }
 
   getCellCoordinate(cell) {
-    for (var row=0; row<this.getNumberRows(); row++) {
-      for (var col=0; col<this.getNumberColumns(); col++) {
-        if (this.cells[row][col] === cell) {
-          return {row: row, column: col}
-        }
-      }
-    }
-    return null;
+    return {row: cell.row, column: cell.column};
+    // for (var row=0; row<this.getNumberRows(); row++) {
+    //   for (var col=0; col<this.getNumberColumns(); col++) {
+    //     if (this.cells[row][col] === cell) {
+    //       return {row: row, column: col}
+    //     }
+    //   }
+    // }
+    // return null;
   }
 
   getAllEmptyCellCoordinates() {
