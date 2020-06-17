@@ -135,6 +135,12 @@ class Grid {
     }
   }
 
+  flatten() {
+    // Returns the 2D array as a 1D array. Useful for Dijkstra's algorithm
+    // where we need to maintain a list of all unvisited nodes
+    return [].concat(...this.cells);
+  }
+
 }
 
 export default Grid;

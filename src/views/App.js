@@ -6,6 +6,7 @@ import './App.css';
 
 import { breadthFirstSearch } from "../pathfinding/breadthFirstSearch.js";
 import { depthFirstSearch } from "../pathfinding/depthFirstSearch.js";
+import { dijkstraSearch } from "../pathfinding/dijkstra.js";
 
 class App extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class App extends Component {
       bfs: {name: "Breadth First Search", function: breadthFirstSearch},
       dfs: {name: "Depth First Search", function: depthFirstSearch},
       astar: {name: "A*", function: null},
-      djikstra: {name: "Djikstra's Algorithm", function: null}
+      djikstra: {name: "Djikstra's Algorithm", function: dijkstraSearch}
     }
   }
 
@@ -89,6 +90,7 @@ class App extends Component {
   }
 
   findPath() {
+
     if (!this.state.start || !this.state.finish) {
       console.log("no start or finish");
       return;

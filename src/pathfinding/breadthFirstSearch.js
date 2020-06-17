@@ -19,7 +19,9 @@ export const breadthFirstSearch = function(grid, startCoord, finishCoord) {
   return { path: path.reverse(), visited: visited };
 }
 
-const bfs = function(grid, start, finish) {
+// This function is used for Dijkstra's algorithm in order
+// to find the all reachable nodes
+export const bfs = function(grid, start, finish) {
   // Do a breadth first search on the 2D array grid
 
   let queue = new Queue();
