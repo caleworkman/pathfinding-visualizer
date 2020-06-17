@@ -18,7 +18,7 @@ const dfs = function(grid, start, finish, path, visited) {
 
   start.visited = true;
   visited.push(start);
-  if (start.hasSameCoordinates(finish)) return path;
+  if (start.isAtPosition(finish)) return path;
 
   let neighbors = getNeighbors(grid, start).filter(cell => !cell.isVisited());
   for (var neighbor of neighbors) {

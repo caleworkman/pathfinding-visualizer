@@ -19,7 +19,9 @@ export default class Cell {
     this.column = newColumn;
   }
 
-  hasSameCoordinates(other) {
+  isAtPosition(other) {
+    if (!other) return false;
+    if (!("row" in other) || !("column" in other)) return false;
     return this.row === other.row && this.column === other.column;
   }
 

@@ -39,7 +39,7 @@ export const bfs = function(grid, start, finish) {
       if (!neighbor.isVisited()) {
         neighbor.visited = true;
         neighbor.from = node;
-        if (neighbor.hasSameCoordinates(finish)) {
+        if (neighbor.isAtPosition(finish)) {
           return { node: neighbor, visited: visited };
         }
         else {

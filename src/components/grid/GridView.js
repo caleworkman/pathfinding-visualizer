@@ -9,15 +9,15 @@ class GridView extends Component {
     const row = cell.row;
     const col = cell.column;
 
-    const startRow = this.props.start?.row ?? null;
-    const startCol = this.props.start?.column ?? null;
-    if (row === startRow && col === startCol) {
+    // const startRow = this.props.start?.row ?? null;
+    // const startCol = this.props.start?.column ?? null;
+    if (cell.isAtPosition(this.props.start)) {
       type = "start";
     }
-
-    const finishRow = this.props.finish?.row ?? null;
-    const finishCol = this.props.finish?.column ?? null;
-    if (row === finishRow && col === finishCol) {
+    //
+    // const finishRow = this.props.finish?.row ?? null;
+    // const finishCol = this.props.finish?.column ?? null;
+    if (cell.isAtPosition(this.props.finish)) {
       type = "finish";
     }
 
