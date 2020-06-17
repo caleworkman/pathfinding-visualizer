@@ -1,14 +1,15 @@
 import { getNeighbors } from "./util.js";
 
-export const depthFirstSearch = function(grid, start, finish) {
+export const depthFirstSearch = function(grid, startCoord, finishCoord) {
 
   grid.clearAllVisited();
 
   let path = [];
   let visited = [];
-  const _start = grid.cells[start.row][start.column]; // start is just a {row, col} pair
+  const start = grid.cells[startCoord.row][startCoord.column];
+  const finish = grid.cells[finishCoord.row][finishCoord.column];
   return {
-    path: dfs(grid, _start, finish, path, visited),
+    path: dfs(grid, start, finish, path, visited),
     visited: visited
   };
 }

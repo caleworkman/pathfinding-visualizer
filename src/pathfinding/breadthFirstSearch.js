@@ -1,12 +1,14 @@
 import Queue from "./Queue.js";
 import { getNeighbors } from "./util.js";
 
-export const breadthFirstSearch = function(grid, start, finish) {
+export const breadthFirstSearch = function(grid, startCoord, finishCoord) {
 
   grid.clearAllVisited();
 
   // Do the search and then backtrack to find the path.
   let path = [];
+  const start = grid.cells[startCoord.row][startCoord.column];
+  const finish = grid.cells[finishCoord.row][finishCoord.column];
   let { node, visited } = bfs(grid, start, finish);  // returns the final node
 
   while (node.from) {
@@ -18,8 +20,7 @@ export const breadthFirstSearch = function(grid, start, finish) {
 }
 
 const bfs = function(grid, start, finish) {
-  // Do a breadth first search on the 2D array grid and return a path from start
-  // to finish as a list of
+  // Do a breadth first search on the 2D array grid
 
   let queue = new Queue();
   let visited = [];
