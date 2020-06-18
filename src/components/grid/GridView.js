@@ -9,14 +9,10 @@ class GridView extends Component {
     const row = cell.row;
     const col = cell.column;
 
-    // const startRow = this.props.start?.row ?? null;
-    // const startCol = this.props.start?.column ?? null;
     if (cell.isAtPosition(this.props.start)) {
       type = "start";
     }
-    //
-    // const finishRow = this.props.finish?.row ?? null;
-    // const finishCol = this.props.finish?.column ?? null;
+
     if (cell.isAtPosition(this.props.finish)) {
       type = "finish";
     }
@@ -30,7 +26,7 @@ class GridView extends Component {
 
   render() {
 
-    const gridComponents = this.props.grid.cells.map((row, rowIndex) => {
+    const gridComponents = this.props.cells.map((row, rowIndex) => {
       const cells = row.map((cell, colIndex) => {
         return (
           <CellView

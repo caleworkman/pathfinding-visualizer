@@ -21,6 +21,10 @@ class Header extends PureComponent {
         <Button onClick={this.props.randomizeGrid}>
           Randomize
         </Button>
+
+        <Button onClick={this.props.clearPath}>
+          Clear Path
+        </Button>
       </div>
     );
   }

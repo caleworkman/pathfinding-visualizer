@@ -22,6 +22,7 @@ class App extends Component {
 
     this.gridRef = React.createRef();
 
+    this.clearPath = this.clearPath.bind(this);
     this.findPath = this.findPath.bind(this);
 
     this.handleMouseDownOnCell = this.handleMouseDownOnCell.bind(this);
@@ -89,6 +90,15 @@ class App extends Component {
     });
   }
 
+  clearPath() {
+    console.log('clear');
+    this.setState(prevState => {
+      let newGrid = prevState.grid;
+      newGrid.clearAllVisited();
+      return {grid: newGrid}
+    })
+  }
+
   findPath() {
 
     if (!this.state.start || !this.state.finish) {
@@ -109,8 +119,8 @@ class App extends Component {
 
     // Set this cell as a wall
     this.setState(prevState => {
-      prevState.grid.setCellType(row, col, "wall");
-      return { dragging: true }
+      prevState.grid.makeWall(row, col);
+      return {dragging: true }
     });
   }
 
@@ -175,6 +185,7 @@ class App extends Component {
     return (
       <div className="app">
         <Header
+          clearPath={this.clearPath}
           findPath={this.findPath}
           dropdownOptions={this.algorithms}
           onSelectAlgorithm={this.handleSelectAlgorithm}
@@ -183,7 +194,7 @@ class App extends Component {
           reset={this.resetGrid}
         />
         <GridView
-          grid={this.state.grid}
+          {...this.state.grid}
           gridRef={this.gridRef}
           start={this.state.start}
           finish={this.state.finish}

@@ -2,6 +2,7 @@ export default class Cell {
   constructor(row, col, type=null, visited=false) {
     this.row = row;
     this.column = col;
+    this.from = null;
     this.type = type;
     this.visited = visited
   }

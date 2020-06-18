@@ -59,6 +59,10 @@ class Grid {
     return emptyCells[randomIndex];
   }
 
+  makeWall(row, col) {
+    this.cells[row][col].type = "wall";
+  }
+
   setCellType(row, col, type) {
     this.cells[row][col].type = type;
   }
@@ -130,6 +134,7 @@ class Grid {
         cell.from = null;
         cell.visited = false;
         if (cell.isVisited()) this.setCellType(row, col, null);
+        if (cell.type === "path") this.setCellType(row, col, null);
       }
     }
   }
