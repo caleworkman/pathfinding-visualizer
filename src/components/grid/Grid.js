@@ -133,7 +133,7 @@ class Grid {
         let cell = this.cells[row][col];
         cell.from = null;
         cell.visited = false;
-        if (cell.isVisited()) this.setCellType(row, col, null);
+        if (cell.type === "visited") this.setCellType(row, col, null);
         if (cell.type === "path") this.setCellType(row, col, null);
       }
     }
