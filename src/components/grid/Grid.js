@@ -86,7 +86,7 @@ class Grid {
       }
     } else if (diffRows >= 2) {
       // Add two new rows. Use old columns because we check for new columns next
-      for (var i=0; i<diffRows; i+=2) {
+      for (var i = 0; i < diffRows; i+=2) {
         newCells.unshift(new Array(oldNumColumns).fill(new Cell()));
         newCells.push(new Array(oldNumColumns).fill(new Cell()));
       }
@@ -94,22 +94,22 @@ class Grid {
 
     if (diffColumns <= -1) {
       // remove first and last column
-      for (var row=0; row<newCells.length; row++) {
+      for (var row = 0; row < newCells.length; row++) {
         newCells[row].shift();
         newCells[row].pop();
       }
     } else if (diffColumns >= 2) {
       // Add two new columns to each row
-      for (var row=0; row<newCells.length; row++) {
-        for (var col=0; col<diffColumns; col+=2) {
+      for (var row = 0; row < newCells.length; row++) {
+        for (var col = 0; col < diffColumns; col+=2) {
           newCells[row].unshift(new Cell());
           newCells[row].push(new Cell());
         }
       }
     }
 
-    for (var row=0; row<newNumRows; row++) {
-      for (var col=0; col<newNumColumns; col++) {
+    for (var row = 0; row < newCells.length; row++) {
+      for (var col = 0; col < newCells[0].length; col++) {
         newCells[row][col].reposition(row, col);
       }
     }
@@ -126,7 +126,6 @@ class Grid {
   clearAllVisited() {
     for (var row=0; row<this.getNumberRows(); row++) {
       for (var col=0; col<this.getNumberColumns(); col++) {
-        // Todo: consolidate these two flags
         let cell = this.cells[row][col];
         cell.from = null;
         cell.visited = false;
@@ -136,8 +135,7 @@ class Grid {
   }
 
   flatten() {
-    // Returns the 2D array as a 1D array. Useful for Dijkstra's algorithm
-    // where we need to maintain a list of all unvisited nodes
+    // Returns the 2D array as a 1D array.
     return [].concat(...this.cells);
   }
 

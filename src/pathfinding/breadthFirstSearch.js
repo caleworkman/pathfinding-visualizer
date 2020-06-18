@@ -11,7 +11,7 @@ export const breadthFirstSearch = function(grid, startCoord, finishCoord) {
   const finish = grid.cells[finishCoord.row][finishCoord.column];
   let { node, visited } = bfs(grid, start, finish);  // returns the final node
 
-  while (node.from) {
+  while (node && node.from) {
     path.push(node);
     node = node.from;
   }
