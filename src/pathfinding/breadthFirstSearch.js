@@ -1,18 +1,17 @@
 import Queue from "./Queue.js";
-import {
-  clearVisited,
-  getNeighbors,
-  hasVisited } from "./util.js";
+import { getNeighbors } from "./util.js";
 
-export const breadthFirstSearch = function(grid, start, finish) {
+export const breadthFirstSearch = function(grid, startCoord, finishCoord) {
 
-  clearVisited(grid);
+  grid.clearAllVisited();
 
   // Do the search and then backtrack to find the path.
   let path = [];
+  const start = grid.cells[startCoord.row][startCoord.column];
+  const finish = grid.cells[finishCoord.row][finishCoord.column];
   let { node, visited } = bfs(grid, start, finish);  // returns the final node
 
-  while (node.from) {
+  while (node && node.from) {
     path.push(node);
     node = node.from;
   }
@@ -20,9 +19,10 @@ export const breadthFirstSearch = function(grid, start, finish) {
   return { path: path.reverse(), visited: visited };
 }
 
-const bfs = function(grid, start, finish) {
-  // Do a breadth first search on the 2D array grid and return a path from start
-  // to finish as a list of
+// This function is used for Dijkstra's algorithm in order
+// to find the all reachable nodes
+export const bfs = function(grid, start, finish) {
+  // Do a breadth first search on the 2D array grid
 
   let queue = new Queue();
   let visited = [];
@@ -36,10 +36,10 @@ const bfs = function(grid, start, finish) {
     queue.dequeue(node);
     let neighbors = getNeighbors(grid, node);
     for (var neighbor of neighbors) {
-      if (!hasVisited(neighbor)) {
+      if (!neighbor.isVisited()) {
         neighbor.visited = true;
         neighbor.from = node;
-        if (neighbor.row === finish.row && neighbor.column === finish.column) {
+        if (neighbor.isAtPosition(finish)) {
           return { node: neighbor, visited: visited };
         }
         else {
