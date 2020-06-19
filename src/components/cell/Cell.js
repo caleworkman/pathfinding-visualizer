@@ -26,4 +26,12 @@ export default class Cell {
     return this.row === other.row && this.column === other.column;
   }
 
+  path() {
+    this.type = "path";
+  }
+
+  visit() {
+    this.type = "visited";
+  }
+
 }

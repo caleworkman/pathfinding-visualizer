@@ -12,16 +12,11 @@
 }
 
 .cell--path {
-  background-color: yellow;
-  animation-name: pathColorChange;
-  animation-duration: 0s;
-  animation-fill-mode: forwards;
+  background: blue;
 }
 
 .cell--visited {
-  animation-name: visitColorChange;
-  animation-duration: 0s;
-  animation-fill-mode: forwards;
+  background: yellow;
 }
 
 .cell--start {
@@ -34,14 +29,4 @@
 
 .cell:hover {
   background: lightblue;
-}
-
-@keyframes visitColorChange {
-  from { background: inherit; }
-  to { background: yellow; }
-}
-
-@keyframes pathColorChange {
-  from { background: yellow; }  /* a path is always visited */
-  to { background: blue; }
 }

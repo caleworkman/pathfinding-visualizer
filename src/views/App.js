@@ -53,45 +53,42 @@ class App extends Component {
 
   animateSearching(visited, path) {
 
-    this.setState(prevState => {
-      let grid = prevState.grid;
-      var animationDelay = 0;
-      for (var cell of visited) {
-        const id = "row" + cell.row + "col" + cell.column;
-        const element = document.getElementById(id);
-        element.style.animationDelay = animationDelay + "s";
-        grid.setCellType(cell.row, cell.column, "visited");
-        animationDelay += 0.03;
-      }
-
-      const lastVisited = visited[visited.length - 2]; // -1 is the finish cell
-      const lastId = "row" + lastVisited.row + "col" + lastVisited.column;
-      const lastElement = document.getElementById(lastId);
-
-      const animationListener = () => this.animatePath(path, lastElement);
-      lastElement.addEventListener("animationend", animationListener, {once: true});
-
-      return { grid: grid }
-    });
+    if (visited) {
+      this.visitInterval = setInterval(
+        () => this.visitNextCell(visited, path),
+        50
+      );
+    }
   }
 
-  animatePath(path, lastElement) {
-    this.setState(prevState => {
-      let grid = prevState.grid;
-      var animationDelay = 0;
-      path.forEach(cell => {
-        const id = "row" + cell.row + "col" + cell.column;
-        const element = document.getElementById(id);
-        element.style.animationDelay = animationDelay + "s";
-        grid.setCellType(cell.row, cell.column, "path");
-        animationDelay += 0.03;
-      });
-      return { grid: grid }
-    });
+  visitNextCell(visited, path) {
+    const cell = visited.shift();
+    cell.visit();
+    this.forceUpdate();
+
+    if (visited.length === 0) {
+      clearInterval(this.visitInterval);
+
+      if (visited) {
+        this.pathInterval = setInterval(
+          () => this.visitPathCell(path),
+          50
+        );
+      }
+    }
+  }
+
+  visitPathCell(path) {
+    const cell = path.shift();
+    cell.path();
+    this.forceUpdate();
+
+    if (path.length === 0) {
+      clearInterval(this.pathInterval);
+    }
   }
 
   clearPath() {
-    console.log('clear');
     this.setState(prevState => {
       let newGrid = prevState.grid;
       newGrid.clearAllVisited();
@@ -100,8 +97,9 @@ class App extends Component {
   }
 
   findPath() {
+    const { grid, start, finish } = this.state;
 
-    if (!this.state.start || !this.state.finish) {
+    if (!start || !finish) {
       console.log("no start or finish");
       return;
     }
@@ -111,7 +109,9 @@ class App extends Component {
       console.log("Please select an algorithm.");
       return;
     }
-    const { path, visited } = searchFunction(this.state.grid, this.state.start, this.state.finish);
+
+
+    const { path, visited } = searchFunction(grid, start, finish);
     this.animateSearching(visited, path);
   }
 
