@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import Grid from "../components/grid/Grid.js";
 import GridView from "../components/grid/GridView.js";
 import Header from "../components/header/Header.js";
+
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,10 +22,13 @@ class App extends Component {
       grid: new Grid(),
       start: null,
       finish: null,
-      selectedAlgorithm: {}
+      selectedAlgorithm: {},
+      warning: ""
     }
 
     this.gridRef = React.createRef();
+
+    this.clearWarning = this.clearWarning.bind(this);
 
     this.clearPath = this.clearPath.bind(this);
     this.findPath = this.findPath.bind(this);
@@ -50,6 +57,10 @@ class App extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
+  }
+
+  clearWarning() {
+    this.setState({ warning: null });
   }
 
   animateSearching(visited, path) {
@@ -101,16 +112,15 @@ class App extends Component {
     const { grid, start, finish } = this.state;
 
     if (!start || !finish) {
-      console.log("no start or finish");
+      this.setState({ warning: "Please select a start or finish."})
       return;
     }
 
     const searchFunction = this.state.selectedAlgorithm.function;
     if (!searchFunction) {
-      console.log("Please select an algorithm.");
+      this.setState({ warning: "Please select an algorithm."})
       return;
     }
-
 
     const { path, visited } = searchFunction(grid, start, finish);
     this.animateSearching(visited, path);
@@ -193,6 +203,7 @@ class App extends Component {
           randomizeGrid={this.randomizeStartAndFinish}
           reset={this.resetGrid}
         />
+
         <GridView
           {...this.state.grid}
           gridRef={this.gridRef}
@@ -202,6 +213,22 @@ class App extends Component {
           onMouseOverCell={this.handleMouseOverCell}
           onMouseUp={this.handleMouseUp}
         />
+
+        <Modal
+          centered
+          backdrop
+          show={this.state.warning}
+          onHide={this.clearWarning}>
+          <Modal.Body className="modal__body">
+            {this.state.warning}
+            <Button
+              variant="primary"
+              onClick={this.clearWarning}>
+              OK
+            </Button>
+          </Modal.Body>
+        </Modal>
+
       </div>
     );
   }

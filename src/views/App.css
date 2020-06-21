@@ -7,3 +7,9 @@
   padding: 1rem;
   overflow: hidden;
 }
+
+.modal__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

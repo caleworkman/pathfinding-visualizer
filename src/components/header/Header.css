@@ -1,4 +1,17 @@
 .header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+}
+
+.header__logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header__controls {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+  fill: white; /* Icons */
 }
