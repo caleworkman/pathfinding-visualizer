@@ -17,11 +17,7 @@ class GridView extends Component {
       type = "finish";
     }
 
-    if (type) {
-      return "cell cell--" + type;
-    } else {
-      return "cell"
-    }
+    return type;
   }
 
   render() {
@@ -30,7 +26,7 @@ class GridView extends Component {
       const cells = row.map((cell, colIndex) => {
         return (
           <CellView
-            className={this.getClassName(cell)}
+            type={this.getClassName(cell)}
             key={"row" + rowIndex + "col" + colIndex}
             row={rowIndex}
             column={colIndex}
