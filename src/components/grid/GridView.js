@@ -4,20 +4,10 @@ import "./Grid.css";
 
 class GridView extends Component {
 
-  getClassName(cell) {
-    let type = cell.type; // in case of "wall"
-    const row = cell.row;
-    const col = cell.column;
-
-    if (cell.isAtPosition(this.props.start)) {
-      type = "start";
-    }
-
-    if (cell.isAtPosition(this.props.finish)) {
-      type = "finish";
-    }
-
-    return type;
+  getType(cell) {
+    if (cell.isAtPosition(this.props.start)) return "start";
+    if (cell.isAtPosition(this.props.finish)) return "finish";
+    return cell.type; // returns "wall" for now
   }
 
   render() {
@@ -26,7 +16,7 @@ class GridView extends Component {
       const cells = row.map((cell, colIndex) => {
         return (
           <CellView
-            type={this.getClassName(cell)}
+            type={this.getType(cell)}
             key={"row" + rowIndex + "col" + colIndex}
             row={rowIndex}
             column={colIndex}

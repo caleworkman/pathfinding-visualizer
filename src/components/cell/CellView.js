@@ -8,13 +8,11 @@ import "./Cell.css";
 class CellView extends PureComponent {
   render() {
 
-    const className = this.props.type
-      ? "cell cell--" + this.props.type
-      : "cell";
+    const cellType = this.props.type ? " cell--" + this.props.type : "";
 
     return (
       <div
-        className={className}
+        className={"cell" + cellType}
         data-row={this.props.row}
         data-column={this.props.column}
         onMouseDown={this.props.onMouseDown}
@@ -23,8 +21,8 @@ class CellView extends PureComponent {
         id={"row"+this.props.row+"col"+this.props.column}
       >
 
-      {(this.props.type === "start") ? <StartIcon /> : null}
-      {(this.props.type === "finish") ? <FinishIcon /> : null}
+        {(this.props.type === "start") ? <StartIcon /> : null}
+        {(this.props.type === "finish") ? <FinishIcon /> : null}
 
       </div>
     );
