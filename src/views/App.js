@@ -3,6 +3,7 @@ import Grid from "../components/grid/Grid.js";
 import GridView from "../components/grid/GridView.js";
 import Header from "../components/header/Header.js";
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { breadthFirstSearch } from "../pathfinding/breadthFirstSearch.js";
 import { depthFirstSearch } from "../pathfinding/depthFirstSearch.js";
@@ -134,10 +135,9 @@ class App extends Component {
     this.setState({ dragging: false });
   }
 
-  handleSelectAlgorithm(event) {
-    const id = event.currentTarget.id;
+  handleSelectAlgorithm(key) {
     this.setState({
-      selectedAlgorithm: this.algorithms[id]
+      selectedAlgorithm: this.algorithms[key]
     });
   }
 
