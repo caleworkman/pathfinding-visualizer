@@ -37,7 +37,6 @@ const astar = function(grid, node, open, closed, finish) {
   const pathWeight = 1; // A grid has equal weights to all neighbors
   for (var neighbor of neighbors) {
     let cost = node.g + pathWeight;
-    console.log(cost);
 
     if (neighbor.isInArray(open) && (cost < neighbor.g)) {
       // remove neighbor from open because new path is better
