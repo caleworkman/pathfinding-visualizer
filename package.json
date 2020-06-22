@@ -1,6 +1,6 @@
 {
   "name": "pathfinding-visualizer",
-  "homepage": "https://caleworkman.github.io/pathfinding-visualizer",
+  "homepage": "http://caleworkman.github.io/pathfinding-visualizer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
