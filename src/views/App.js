@@ -44,9 +44,9 @@ class App extends Component {
     this.resetGrid = this.resetGrid.bind(this);
 
     this.algorithms = {
-      bfs: {name: "Breadth First Search", function: breadthFirstSearch},
-      dfs: {name: "Depth First Search", function: depthFirstSearch},
       astar: {name: "A*", function: astarSearch},
+      bfs: {name: "Breadth-First Search", function: breadthFirstSearch},
+      dfs: {name: "Depth-First Search", function: depthFirstSearch},
       djikstra: {name: "Djikstra's Algorithm", function: dijkstraSearch}
     }
   }
