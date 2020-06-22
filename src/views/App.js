@@ -9,6 +9,7 @@ import Modal from "react-bootstrap/Modal";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { astarSearch } from "../pathfinding/astar.js";
 import { breadthFirstSearch } from "../pathfinding/breadthFirstSearch.js";
 import { depthFirstSearch } from "../pathfinding/depthFirstSearch.js";
 import { dijkstraSearch } from "../pathfinding/dijkstra.js";
@@ -45,7 +46,7 @@ class App extends Component {
     this.algorithms = {
       bfs: {name: "Breadth First Search", function: breadthFirstSearch},
       dfs: {name: "Depth First Search", function: depthFirstSearch},
-      astar: {name: "A*", function: null},
+      astar: {name: "A*", function: astarSearch},
       djikstra: {name: "Djikstra's Algorithm", function: dijkstraSearch}
     }
   }

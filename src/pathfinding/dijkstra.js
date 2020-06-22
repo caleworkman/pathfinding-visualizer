@@ -10,7 +10,6 @@ export const dijkstraSearch = function(grid, startCoord, finishCoord) {
   grid.clearAllVisited();
 
   let visited = [];
-  // let unvisited = grid.flatten().filter(node => node.type !== "wall");
   prepareGrid(grid);
 
   const start = grid.cells[startCoord.row][startCoord.column];

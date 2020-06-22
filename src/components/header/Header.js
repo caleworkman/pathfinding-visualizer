@@ -11,7 +11,6 @@ import {ReactComponent as GridIcon} from "../../assets/grid-icon.svg";
 import {ReactComponent as ReplayIcon} from "../../assets/replay-icon.svg";
 import {ReactComponent as ShuffleIcon} from "../../assets/shuffle-icon.svg";
 
-
 class Header extends PureComponent {
 
   render() {

@@ -11,6 +11,14 @@ export default class Cell {
     return !this.type;
   }
 
+  isInArray(array) {
+    return array.some(n => n.isAtPosition(this));
+  }
+
+  indexInArray(array) {
+    return array.findIndex(cell => (cell.isAtPosition(this)));
+  }
+
   isVisited() {
     return this.visited;
   }
